@@ -6,7 +6,6 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IInvestStrategy} from "./interfaces/IInvestStrategy.sol";
-import {console} from "forge-std/console.sol";
 
 /**
  * @title Arcana
@@ -61,9 +60,7 @@ contract Arcana is ERC4626, Ownable {
         for (uint256 i = 0; i < strategies.length; i++) {
             if (strategies[i].active) {
                 // Funds are already inside the vault (this)
-                console.log("contract balance", IERC20(asset()).balanceOf(address(this)));
                 IERC20(asset()).transfer(address(strategies[i].strategy), assets);
-                console.log("strategy balance", IERC20(asset()).balanceOf(address(strategies[i].strategy)));
                 strategies[i].strategy.deposit(assets);
                 break;
             }
