@@ -69,7 +69,6 @@ contract ArcanaIntegrationTest is Test {
 
         // Approve and deposit
         vm.startPrank(user);
-        console.log("user balance", assetToken.balanceOf(user));
         assetToken.approve(address(arcana), 1000);
         arcana.deposit(1000, user);
         vm.stopPrank();
@@ -146,14 +145,6 @@ contract ArcanaIntegrationTest is Test {
 
         // Verify deposit went to Rasa strategy
         assertEq(arcana.totalSupply(), 1000, "total shares should be 1000");
-        console.log("rsToken address", rsToken);
-        console.log("rsToken address from strategy", rasaStrategy.rsToken());
-        console.log("rToken balance rasa strategy", IERC20(rsToken).balanceOf(address(rasaStrategy)));
-        console.log("rToken balance rasa pool", IERC20(rsToken).balanceOf(address(rasaPool)));
-        console.log("rToken balance arcana", IERC20(rsToken).balanceOf(address(arcana)));
-        console.log("rToken balance user", IERC20(rsToken).balanceOf(user));
-        console.log("rToken balance this", IERC20(rsToken).balanceOf(address(this)));
-        console.log("rasa strategy address", address(rasaStrategy));
         assertEq(IERC20(rsToken).balanceOf(address(rasaStrategy)), 1000, "rasa pool should have 1000 tokens");
     }
 

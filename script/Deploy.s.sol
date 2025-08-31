@@ -10,19 +10,38 @@ import {IMetaMorpho} from "../src/interfaces/IMetaMorpho.sol";
 import {IRasaPool} from "../src/interfaces/IRasaPool.sol";
 import {console} from "forge-std/console.sol";
 
+/**
+ * @title DeployScript
+ * @dev Deployment script for the Arcana vault system including strategies.
+ *      Deploys the main vault, Morpho strategy, and Rasa strategy with
+ *      proper initialization and configuration.
+ */
 contract DeployScript is Script {
+    /// @dev The main Arcana vault contract
     Arcana public arcana;
+    
+    /// @dev The Morpho investment strategy
     MorphoStrategy public morphoStrategy;
+    
+    /// @dev The Rasa investment strategy
     RasaStrategy public rasaStrategy;
     
     // Contract addresses from ArcanaIntegration test
+    /// @dev The underlying asset token (e.g., USDC, DAI)
     IERC20 public assetToken;
+    
+    /// @dev The Morpho MetaMorpho vault address
     IMetaMorpho public morphoVault;
+    
+    /// @dev The Rasa lending pool address
     IRasaPool public rasaPool;
+    
+    /// @dev The Rasa RS token address
     address public rsToken;
 
-    function setUp() public {}
-
+    /**
+     * @dev Main deployment function that sets up the entire Arcana system
+     */
     function run() public {
         vm.startBroadcast();
 
