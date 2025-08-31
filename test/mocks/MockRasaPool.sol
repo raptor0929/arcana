@@ -29,6 +29,9 @@ contract MockRasaPool is IRasaPool {
         aTokenBalances[onBehalfOf] += amount;
         totalATokens += amount;
         
+        // Mint aTokens to the strategy
+        aToken.mint(onBehalfOf, amount);
+        
         // Transfer assets from caller
         IERC20(asset).transferFrom(msg.sender, address(this), amount);
     }
@@ -40,6 +43,9 @@ contract MockRasaPool is IRasaPool {
         
         aTokenBalances[msg.sender] -= amount;
         totalATokens -= amount;
+        
+        // Burn aTokens from the strategy
+        aToken.burn(msg.sender, amount);
         
         // Transfer assets to recipient
         IERC20(asset).transfer(to, amount);
@@ -69,7 +75,7 @@ contract MockRasaPool is IRasaPool {
     ) {
         require(_asset == address(asset), "Wrong asset");
         
-        // Return mock data - aTokenAddress is this contract
+        // Return mock data - aTokenAddress is the aToken contract
         return (
             1, // configuration (active)
             1e27, // liquidityIndex
@@ -79,7 +85,7 @@ contract MockRasaPool is IRasaPool {
             0, // currentStableBorrowRate
             uint40(block.timestamp), // lastUpdateTimestamp
             0, // id
-            address(aToken), // aTokenAddress (this contract)
+            address(aToken), // aTokenAddress (the aToken contract)
             address(0), // stableDebtTokenAddress
             address(0), // variableDebtTokenAddress
             address(0), // interestRateStrategyAddress
